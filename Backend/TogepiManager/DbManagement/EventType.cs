@@ -1,6 +1,6 @@
-﻿namespace IncidentLibrary
+﻿namespace TogepiManager.DbManagement
 {
-    public enum ThreatLevel
+    public enum EventType
     {
         PRANK,
         INJURY,
@@ -18,9 +18,9 @@
         NUCLEAR_THREAT
     }
 
-    public static class ThreatLevelMethods
+    public static class EventTypeMethods
     {
-        public static double MaxDistanceToMerge(this ThreatLevel level) {
+        public static double MaxDistanceToMerge(this EventType level) {
             switch (level) {
                 // TODO: Think of distances (in meters)
                 default:
