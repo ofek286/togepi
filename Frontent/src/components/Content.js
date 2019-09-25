@@ -19,8 +19,6 @@ import CustomGoogleMap from './CustomGoogleMap.js';
 
 import loadinggif from '../resources/load.gif'
 
-import { GoogleMap, LoadScript } from '@react-google-maps/api'
-
 import Container from '@material-ui/core/Container';
 
 import Box from '@material-ui/core/Box';
@@ -51,14 +49,22 @@ const styles = theme => ({
   },
 });
 
-async function getEventsData (){
-  console.log('Get Request Sent')
-  await axios.get('https://togepi-backend.azurewebsites.net/api/events')
-  .then(response => this.setState({username:response.data.events }))
 
+const arrayDisasters = [{id:0, title:'Prank'},
+{id:1, title:'Drowning'},
+{id:2, title:'Fire'},
+{id:3, title:'Injured'},
+{id:4, title:'Murder'},
+{id:5, title:'Sick'},
+{id:6, title:'StuckInRoom'},
+{id:7, title:'Trapped'},
+{id:8, title:'Car Crush'}]
 
-}
-
+function b(idToSearch) {
+  return arrayDisasters.filter(item => {
+    return item.id === idToSearch
+  })
+};
 
 class Content extends Component {
 getEventsData2 = async () => {
@@ -66,20 +72,63 @@ getEventsData2 = async () => {
     await axios.get('https://togepi-backend.azurewebsites.net/api/events')
     .then(response => this.setState({data:response.data.events }))
 
+
+  }
+
+createDataList = async () => {
+    var newDataList =[];
+
+
+    this.state.data.forEach(function(element) {
+      console.log(element);
+      var obj = {
+          id: element.eventId,
+          eventType:b(element.type)[0].title,
+          eventLocation: element.displayLocation,
+          eventStatus: "Unanswered"
+      };
+    newDataList.push(obj)
+});
+  this.setState({dataList:newDataList})
+}
+
+createMarkUpList = async () => {
+    var markUpList =[];
+
+
+    this.state.data.forEach(function(element) {
+      console.log(element);
+      var obj = {
+          lat: element.latitude,
+          lng: element.longitude
+      };
+    markUpList.push(obj)
+});
+  this.setState({markUpList:markUpList})
+}
+
+
+
+getPressedEventId = (val) => {
+      // do not forget to bind getData in constructor
+      console.log(val);
   }
 
 
   constructor(props) {
     super(props);
+    this.getPressedEventId = this.getPressedEventId.bind(this);
     this.state = {
       classes: this.props,
-      isThereData: false,
+      isThereData: false
     };
     if(this.state.isThereData == false){
     this.getEventsData2().then(response => {
       console.log(this.state.data)
-  }).then(response => {this.setState({isThereData: true})})
-  }
+  }).then(response =>{this.createDataList()})
+  .then(response =>{this.createMarkUpList()})
+  .then(response => {this.setState({isThereData: true})})
+}
   }
 
 render(){
@@ -93,7 +142,7 @@ render(){
     )
   }else{
     return (
-    <Paper className={this.state.classes.paper}>
+    <Paper className={this.state.classes.paper} style={{width:1450+"px", height:800+"px"}}>
 
       <AppBar className={this.state.classes.searchBar} position="static" color="default" elevation={0}>
         <Toolbar>
@@ -114,16 +163,16 @@ render(){
       <div className={this.state.classes.contentWrapper}>
       <Grid container spacing={0} alignItems="center">
 
-      <Grid item xs={4} style={{height:500 +'px'}}>
+      <Grid item xs={5} style={{height:500 +'px'}}>
         <Container maxWidth="sm">
-              <CustomeDataTable  data={this.state.data}/>
+              <CustomeDataTable  data={this.state.dataList} getEventId={this.getPressedEventId}/>
         </Container>
       </Grid>
 
-      <Grid item xs={8} style={{height: 450 + 'px', width: 350 + 'px'}}>
+      <Grid item xs={7} style={{height: 450 + 'px', width: 350 + 'px'}}>
         <h1>Live Events Map</h1>
-        <div >
-        <CustomGoogleMap/>
+        <div id="mapDiv" style={{background: '#fff', pointerevents: 'none'}}>
+        <CustomGoogleMap data={this.state.markUpList}/>
         </div>
       </Grid>
 

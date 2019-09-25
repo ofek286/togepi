@@ -34,6 +34,7 @@ const styles = (theme: Theme) =>
     contentWrapper: {
       margin: '40px 16px',
     },
+
   });
 
 export interface ContentProps extends WithStyles<typeof styles> {}
