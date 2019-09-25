@@ -43,6 +43,8 @@ namespace TogepiManager {
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
+
+            services.AddCors(o => o.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,6 +55,8 @@ namespace TogepiManager {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseCors("AllowAll");
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

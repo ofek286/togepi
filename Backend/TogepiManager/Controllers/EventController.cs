@@ -1,7 +1,9 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using GeoCoordinatePortable;
 using HEREMaps.Base;
 using HEREMaps.LocationServices;
 using Microsoft.AspNetCore.Mvc;
@@ -26,21 +28,32 @@ namespace TogepiManager.Controllers {
             dbContext.Database.EnsureCreated();
         }
 
-        // [HttpPost]
-        // [ProducesResponseType(typeof(ResponseModel), (int) HttpStatusCode.OK)]
-        // [ProducesResponseType(typeof(ResponseModel), (int) HttpStatusCode.BadRequest)]
-        // public IActionResult AddNewEvent([FromBody, Required] CreateEventRequestModel model) {
-        //     if (model == null) {
-        //         return new BadRequestObjectResult(new ResponseModel {
-        //             Status = false,
-        //             Message = APIMessages.NO_ARGUMENTS_MESSAGE
-        //         });
-        //     }
+        [HttpPost]
+        [ProducesResponseType(typeof(ResponseModel), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ResponseModel), (int) HttpStatusCode.BadRequest)]
+        public IActionResult AddNewEvent([FromBody, Required] CreateEventRequestModel model) {
+            if (model == null) {
+                return new BadRequestObjectResult(new ResponseModel {
+                    Status = false,
+                        Message = APIMessages.NO_ARGUMENTS_MESSAGE
+                });
+            }
 
-        //     dbContext.Events.Add(new Event {
-
-        //     })
-        // }
+            dbContext.Events.Add(new Event {
+                Id = Guid.NewGuid(),
+                    Location = new GeoCoordinate {
+                        Latitude = model.Latitude,
+                            Longitude = model.Longitude
+                    },
+                    Radius = model.Radius,
+                    Type = model.Type
+            });
+            dbContext.SaveChanges();
+            return new OkObjectResult(new ResponseModel {
+                Status = true,
+                    Message = APIMessages.OK_MESSAGE
+            });
+        }
 
         /// <summary>
         /// Returns the list of all of the active events.
