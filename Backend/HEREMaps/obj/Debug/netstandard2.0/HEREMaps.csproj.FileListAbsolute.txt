@@ -1,0 +1,9 @@
+C:\Users\Segal\IncidentDashbord\HEREMaps\bin\Debug\netstandard2.0\HEREMaps.deps.json
+C:\Users\Segal\IncidentDashbord\HEREMaps\bin\Debug\netstandard2.0\HEREMaps.dll
+C:\Users\Segal\IncidentDashbord\HEREMaps\bin\Debug\netstandard2.0\HEREMaps.pdb
+C:\Users\Segal\IncidentDashbord\HEREMaps\obj\Debug\netstandard2.0\HEREMaps.csprojAssemblyReference.cache
+C:\Users\Segal\IncidentDashbord\HEREMaps\obj\Debug\netstandard2.0\HEREMaps.csproj.CoreCompileInputs.cache
+C:\Users\Segal\IncidentDashbord\HEREMaps\obj\Debug\netstandard2.0\HEREMaps.AssemblyInfoInputs.cache
+C:\Users\Segal\IncidentDashbord\HEREMaps\obj\Debug\netstandard2.0\HEREMaps.AssemblyInfo.cs
+C:\Users\Segal\IncidentDashbord\HEREMaps\obj\Debug\netstandard2.0\HEREMaps.dll
+C:\Users\Segal\IncidentDashbord\HEREMaps\obj\Debug\netstandard2.0\HEREMaps.pdb
