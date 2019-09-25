@@ -51,12 +51,26 @@ function p1() {
 }
 
 class CustomeDataTable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: this.props.data,
+      datamap: this.props.data.map(item => {id: item.eventId, eventType: item.type, eventLocation: item.latitude + "|" + item.longitude})
+    };
+    console.log("done creating state------------")
+    console.log(this.state.datamap)
+  }
+
   render() {
-    return ( <DataTable
+    return (
+      <div>
+
+      <DataTable
         title='Current Active Events'
         columns={columns}
-        data={data}
+        data={this.state.data}
       />
+      </div>
     );
   }
 }
