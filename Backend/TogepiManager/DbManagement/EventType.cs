@@ -2,7 +2,7 @@
 namespace TogepiManager.DbManagement {
     public enum EventType {
         PRANK,
-        DROWING,
+        DROWNING,
         FIRE,
         INJURED,
         MURDER,

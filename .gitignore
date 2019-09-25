@@ -23,6 +23,7 @@ nupkg/
 [Rr]elease/
 [Rr]eleases/
 [Pp]ublish/
+[Pp]ublishProfiles/
 x64/
 x86/
 build/
@@ -36,3 +37,5 @@ msbuild.wrn
 
 # Visual Studio 2015
 .vs/
+/Backend/TogepiManager/Properties/PublishProfiles
+/Backend/TogepiManager/Properties/PublishProfiles

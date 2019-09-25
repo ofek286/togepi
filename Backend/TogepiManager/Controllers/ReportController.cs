@@ -15,6 +15,9 @@ using TogepiManager.Consts;
 using TogepiManager.DbManagement;
 
 namespace TogepiManager.Controllers {
+    /// <summary>
+    /// The controller that is responsible to manage the incoming reports.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ReportController : ControllerBase {
@@ -22,6 +25,11 @@ namespace TogepiManager.Controllers {
         private ILogger<ReportController> logger;
         private HEREApp apiKey;
 
+        /// <summary>
+        /// The constructor of the controller.
+        /// </summary>
+        /// <param name="context">The database to use</param>
+        /// <param name="loggerArg">The logger to use</param>
         public ReportController(TogepiContext context, ILogger<ReportController> loggerArg) {
             dbContext = context;
             logger = loggerArg;
@@ -84,7 +92,8 @@ namespace TogepiManager.Controllers {
                         EventId = eventId,
                         Type = ReportType.TEXT,
                         Content = report,
-                        UserId = model.UserId
+                        UserId = model.UserId,
+                        TimeReceived = DateTime.Now
                     };
                     dbContext.Reports.Add(realReport);
                 }

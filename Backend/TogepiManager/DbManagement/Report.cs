@@ -17,5 +17,7 @@ namespace TogepiManager.DbManagement {
         public string Content { get; set; }
 
         public string UserId { get; set; }
+
+        public DateTime TimeReceived { get; set; }
     }
 }
