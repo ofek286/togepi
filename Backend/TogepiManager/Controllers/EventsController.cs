@@ -15,38 +15,22 @@ using TogepiManager.DbManagement;
 namespace TogepiManager.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    public class EventController : ControllerBase {
+    public class EventsController : ControllerBase {
         private TogepiContext dbContext;
-        private ILogger<EventController> logger;
+        private ILogger<EventsController> logger;
 
-        public EventController(TogepiContext context, ILogger<EventController> loggerArg) {
+        public EventsController(TogepiContext context, ILogger<EventsController> loggerArg) {
             dbContext = context;
             logger = loggerArg;
 
             dbContext.Database.EnsureCreated();
         }
 
-        // [HttpPost]
-        // [ProducesResponseType(typeof(ResponseModel), (int) HttpStatusCode.OK)]
-        // [ProducesResponseType(typeof(ResponseModel), (int) HttpStatusCode.BadRequest)]
-        // public IActionResult AddNewEvent([FromBody, Required] CreateEventRequestModel model) {
-        //     if (model == null) {
-        //         return new BadRequestObjectResult(new ResponseModel {
-        //             Status = false,
-        //             Message = APIMessages.NO_ARGUMENTS_MESSAGE
-        //         });
-        //     }
-
-        //     dbContext.Events.Add(new Event {
-
-        //     })
-        // }
-
         /// <summary>
         /// Returns the list of all of the active events.
         /// </summary>
         /// <response code="200">The response was OK, and we tried to return the list of events</response>
-        [HttpOptions]
+        [HttpGet]
         [ProducesResponseType(typeof(AllEventsResponseModel), (int) HttpStatusCode.OK)]
         public async Task<IActionResult> GetAllEvents() {
             var api = new HEREApp {
