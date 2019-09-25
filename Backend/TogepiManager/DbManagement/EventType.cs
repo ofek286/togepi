@@ -1,31 +1,23 @@
-﻿namespace TogepiManager.DbManagement
-{
-    public enum EventType
-    {
+﻿using System.Net;
+namespace TogepiManager.DbManagement {
+    public enum EventType {
         PRANK,
-        INJURY,
-        HEALTH_CRISIS,
-        CONSTRUCTION_FAULT,
+        DROWING,
         FIRE,
-        WILDFIRE,
-        POWER_OUTAGE,
-        INFRASTRUCTURE_FAULT,
-        EARTHQUAKE,
-        TSUNAMI,
-        STORM,
-        EXTREME_WEATHER,
-        TERRORISM,
-        NUCLEAR_THREAT
+        INJURED,
+        MURDER,
+        SICK,
+        STUCK_IN_ROOM,
+        TRAPPED,
+        CAR_CRASH
     }
 
-    public static class EventTypeMethods
-    {
+    public static class EventTypeMethods {
         public static double MaxDistanceToMerge(this EventType level) {
             switch (level) {
                 // TODO: Think of distances (in meters)
-                default:
-                    return 10;
+                default : return 10;
             }
-        } 
+        }
     }
 }

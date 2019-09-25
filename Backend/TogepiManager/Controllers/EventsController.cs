@@ -27,6 +27,26 @@ namespace TogepiManager.Controllers {
         }
 
         /// <summary>
+        /// Deletes all of the events
+        /// </summary>
+        /// <response code="200">The response was OK, and we tried to delete all of the events</response>
+        [HttpDelete]
+        [ProducesResponseType(typeof(AllEventsResponseModel), (int) HttpStatusCode.OK)]
+        public IActionResult DeleteEveryEvent() {
+            foreach (var id in dbContext.Events.Select(e => e.Id)) {
+                var entity = new Event { Id = id };
+                dbContext.Events.Attach(entity);
+                dbContext.Events.Remove(entity);
+            }
+
+            dbContext.SaveChanges();
+            return new OkObjectResult(new ResponseModel {
+                Status = true,
+                    Message = APIMessages.OK_MESSAGE
+            });
+        }
+
+        /// <summary>
         /// Returns the list of all of the active events.
         /// </summary>
         /// <response code="200">The response was OK, and we tried to return the list of events</response>

@@ -20,18 +20,30 @@ namespace TogepiManager.Controllers {
     public class EventController : ControllerBase {
         private TogepiContext dbContext;
         private ILogger<EventController> logger;
+        private HEREApp apiKey;
 
         public EventController(TogepiContext context, ILogger<EventController> loggerArg) {
             dbContext = context;
             logger = loggerArg;
 
             dbContext.Database.EnsureCreated();
+
+            apiKey = new HEREApp {
+                AppId = "nwVKikGG0miA826GlXkr",
+                AppCode = "U_lOt-47GHaEnnNs34gJ6w"
+            };
         }
 
+        /// <summary>
+        /// Add an event without reports.
+        /// </summary>
+        /// <param name="model">The info about the event</param>
+        /// <response code="200">The request was OK, and we tried to add the event</response>
+        /// <response code="400">Wrong arguments were given</response>
         [HttpPost]
         [ProducesResponseType(typeof(ResponseModel), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ResponseModel), (int) HttpStatusCode.BadRequest)]
-        public IActionResult AddNewEvent([FromBody, Required] CreateEventRequestModel model) {
+        public async Task<IActionResult> AddNewEvent([FromBody, Required] CreateEventRequestModel model) {
             if (model == null) {
                 return new BadRequestObjectResult(new ResponseModel {
                     Status = false,
@@ -39,11 +51,12 @@ namespace TogepiManager.Controllers {
                 });
             }
 
+            var geoLoc = await Geocoding.Geocode(apiKey, model.LocationString);
             dbContext.Events.Add(new Event {
                 Id = Guid.NewGuid(),
-                    Latitude = model.Latitude,
-                    Longitude = model.Longitude,
-                    Radius = model.Radius,
+                    Latitude = geoLoc.Latitude,
+                    Longitude = geoLoc.Longitude,
+                    Radius = 10,
                     Type = model.Type
             });
             dbContext.SaveChanges();
@@ -60,10 +73,6 @@ namespace TogepiManager.Controllers {
         [HttpOptions]
         [ProducesResponseType(typeof(AllEventsResponseModel), (int) HttpStatusCode.OK)]
         public async Task<IActionResult> GetAllEvents() {
-            var api = new HEREApp {
-                AppId = "nwVKikGG0miA826GlXkr",
-                AppCode = "U_lOt-47GHaEnnNs34gJ6w"
-            };
             return new OkObjectResult(new AllEventsResponseModel {
                 Status = true,
                     Message = APIMessages.OK_MESSAGE,
@@ -71,7 +80,7 @@ namespace TogepiManager.Controllers {
                         EventId = e.Id.ToString(),
                             Latitude = e.Location.Latitude,
                             Longitude = e.Location.Longitude,
-                            DisplayLocation = await Geocoding.ReverseGeocode(api, e.Location, e.Radius),
+                            DisplayLocation = await Geocoding.ReverseGeocode(apiKey, e.Location, e.Radius),
                             Radius = e.Radius,
                             Type = e.Type
                     }))).ToList()

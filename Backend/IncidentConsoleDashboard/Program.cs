@@ -2,12 +2,9 @@
 using HEREMaps.Base;
 using HEREMaps.LocationServices;
 
-namespace IncidentConsoleDashboard
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
+namespace IncidentConsoleDashboard {
+    class Program {
+        static void Main() {
             var apiKey = new HEREApp {
                 AppId = "nwVKikGG0miA826GlXkr",
                 AppCode = "U_lOt-47GHaEnnNs34gJ6w"

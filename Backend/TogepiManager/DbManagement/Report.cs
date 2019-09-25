@@ -15,5 +15,7 @@ namespace TogepiManager.DbManagement {
         /// If image or voice, the content is Base64 of the binary content.
         /// </summary>
         public string Content { get; set; }
+
+        public string UserId { get; set; }
     }
 }
