@@ -52,48 +52,58 @@ namespace TogepiManager.Controllers {
                 });
             }
 
-            var geoLoc = await Geocoding.Geocode(apiKey, model.Event.LocationString);
+            try {
 
-            var merged = false;
-            var eventId = Guid.NewGuid();
-            var newEvent = new Event {
-                Latitude = geoLoc.Latitude,
-                Longitude = geoLoc.Longitude,
-                Radius = 10,
-                Type = model.Event.Type
-            };
+                var geoLoc = await Geocoding.Geocode(apiKey, model.Event.LocationString);
 
-            foreach (Event e in dbContext.Events) {
-                var canMerge = newEvent.TryMerge(e, out Event mergeOutput);
-                if (canMerge) {
-                    dbContext.Events.Remove(e);
-                    eventId = mergeOutput.Id;
-                    dbContext.Events.Add(mergeOutput);
-                    merged = true;
-                    break;
-                }
-            }
-            if (!merged) {
-                dbContext.Events.Add(newEvent);
-            }
-            foreach (var report in model.Reports.Split(new string[] { "$\n" }, StringSplitOptions.RemoveEmptyEntries)) {
-                var realReport = new Report {
-                    Id = Guid.NewGuid(),
-                    EventId = eventId,
-                    Type = ReportType.TEXT,
-                    Content = report,
-                    UserId = model.UserId
+                var merged = false;
+                var eventId = Guid.NewGuid();
+                var newEvent = new Event {
+                    Latitude = geoLoc.Latitude,
+                    Longitude = geoLoc.Longitude,
+                    Radius = 10,
+                    Type = model.Event.Type
                 };
-                dbContext.Reports.Add(realReport);
+
+                foreach (Event e in dbContext.Events) {
+                    var canMerge = newEvent.TryMerge(e, out Event mergeOutput);
+                    if (canMerge) {
+                        dbContext.Events.Remove(e);
+                        eventId = mergeOutput.Id;
+                        dbContext.Events.Add(mergeOutput);
+                        merged = true;
+                        break;
+                    }
+                }
+                if (!merged) {
+                    dbContext.Events.Add(newEvent);
+                }
+                foreach (var report in model.Reports.Split(new string[] { "$\n" }, StringSplitOptions.RemoveEmptyEntries)) {
+                    var realReport = new Report {
+                        Id = Guid.NewGuid(),
+                        EventId = eventId,
+                        Type = ReportType.TEXT,
+                        Content = report,
+                        UserId = model.UserId
+                    };
+                    dbContext.Reports.Add(realReport);
+                }
+
+                dbContext.SaveChanges();
+
+                return new OkObjectResult(new ReportAddedResponseModel {
+                    Status = true,
+                        Message = APIMessages.OK_MESSAGE,
+                        EventId = eventId.ToString()
+                });
+
+            } catch (Exception ex) {
+                return new OkObjectResult(new ReportAddedResponseModel {
+                    Status = false,
+                        Message = ex.Message,
+                        EventId = null
+                });
             }
-
-            dbContext.SaveChanges();
-
-            return new OkObjectResult(new ReportAddedResponseModel {
-                Status = true,
-                    Message = APIMessages.OK_MESSAGE,
-                    EventId = eventId.ToString()
-            });
         }
     }
 }
