@@ -190,7 +190,7 @@ function Paperbase(props) {
         <div className={classes.app}>
           <Header onDrawerToggle={handleDrawerToggle} />
           <main className={classes.main}>
-            <Content />
+            <Content style={{width:1600+"px", height:1200+"px"}}/>
           </main>
           <footer className={classes.footer}>
             <Copyright />

@@ -4,6 +4,10 @@ import ReactDOM from 'react-dom';
 import DataTable from 'react-data-table-component';
 
 
+const Button = () => (
+  <button type="button">View</button>
+);
+
 const CustomEvent = ({ row }) => (
   <div>
     {}
@@ -21,44 +25,44 @@ const CustomLocation = ({ row }) => (
       </div>
   </div>
 );
-
-const data = [{ id: 1, eventType: 'Conan the Barbarian', eventLocation: '1982' },{ id: 1, eventType: 'Conan the Barbarian', eventLocation: '1982' },
-{ id: 1, eventType: 'Conan the Barbarian', eventLocation: '1982' },
-{ id: 1, eventType: 'Conan the Barbarian', eventLocation: '1982' },
-{ id: 1, eventType: 'Conan the Barbarian', eventLocation: '1982' },
-{ id: 1, eventType: 'Conan the Barbarian', eventLocation: '1982' },
-{ id: 1, eventType: 'Conan the Barbarian', eventLocation: '1982' },];
 const columns = [
   {
     name: 'Event Type',
     selector: 'eventType',
 
-    maxWidth: '600px', // when using custom you should use width or maxWidth, otherwise, the table will default to flex grow behavior
-    cell: row => <CustomEvent row={row.eventType} />,
+    maxWidth: '100px', // when using custom you should use width or maxWidth, otherwise, the table will default to flex grow behavior
+    cell: row => <CustomEvent row={row.eventType}/>,
   },
   {
     name: 'Location',
     selector: 'eventLocation',
-    maxWidth: '600px', // when using custom you should use width or maxWidth, otherwise, the table will default to flex grow behavior
+    maxWidth: '900px', // when using custom you should use width or maxWidth, otherwise, the table will default to flex grow behavior
     cell: row => <CustomEvent row={row.eventLocation} />,
 
+  },
+
+  {
+    name: 'View Event',
+    selector: 'id',
+    maxWidth: '150px', // when using custom you should use width or maxWidth, otherwise, the table will default to flex grow behavior
+    button: true,
+    cell: () => <Button on>View</Button>,
   }
+
 
 ];
 
-function p1() {
-  return(<p>test</p>);
-}
-
 class CustomeDataTable extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
       data: this.props.data,
-      datamap: this.props.data.map(item => {id: item.eventId, eventType: item.type, eventLocation: item.latitude + "|" + item.longitude})
+      getPressedEventIdFunction: this.props.getEventId
     };
-    console.log("done creating state------------")
-    console.log(this.state.datamap)
+
+    this.state.getPressedEventIdFunction("afwafawwwadwafwafa");
+
   }
 
   render() {
@@ -69,7 +73,7 @@ class CustomeDataTable extends React.Component {
         title='Current Active Events'
         columns={columns}
         data={this.state.data}
-      />
+      onClick={this.state.getPressedEventIdFunction(11111111111)}/>
       </div>
     );
   }
