@@ -7,16 +7,23 @@ using IncidentLibrary;
 namespace TogepiManager.DbManagement {
     public class Event {
         public Guid Id { get; set; }
+        public double Latitude { get; set; }
 
-        public GeoCoordinate Location { get; set; }
-
-        public double Latitude { get { return Location.Latitude; } }
-
-        public double Longitude { get { return Location.Longitude; } }
+        public double Longitude { get; set; }
 
         public double Radius { get; set; }
 
         public EventType Type { get; set; }
+
+        public GeoCoordinate Location {
+            get {
+                return new GeoCoordinate(Latitude, Longitude);
+            }
+            set {
+                Latitude = value.Latitude;
+                Longitude = value.Longitude;
+            }
+        }
 
         public bool TryMerge(Event otherThreat, out Event mergedThreat) {
             // TODO: Add complex logic here

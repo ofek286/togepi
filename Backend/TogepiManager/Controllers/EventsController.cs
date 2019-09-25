@@ -42,8 +42,8 @@ namespace TogepiManager.Controllers {
                     Message = APIMessages.OK_MESSAGE,
                     Events = (await Task.WhenAll(dbContext.Events.ToList().ConvertAll(async e => new ExportEvent {
                         EventId = e.Id.ToString(),
-                            Latitude = e.Location.Latitude,
-                            Longitude = e.Location.Longitude,
+                            Latitude = e.Latitude,
+                            Longitude = e.Longitude,
                             DisplayLocation = await Geocoding.ReverseGeocode(api, e.Location, e.Radius),
                             Radius = e.Radius,
                             Type = e.Type

@@ -41,10 +41,8 @@ namespace TogepiManager.Controllers {
 
             dbContext.Events.Add(new Event {
                 Id = Guid.NewGuid(),
-                    Location = new GeoCoordinate {
-                        Latitude = model.Latitude,
-                            Longitude = model.Longitude
-                    },
+                    Latitude = model.Latitude,
+                    Longitude = model.Longitude,
                     Radius = model.Radius,
                     Type = model.Type
             });
