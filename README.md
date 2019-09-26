@@ -17,8 +17,6 @@ once received the servers store the data accordingly for further use of the syst
 The dispatchers use the Togepi dashboard for handling calls for help, checking each reported event and all the data that arrived with it from all of the different reports involving the same event.
 
 
-A list of commonly used resources that I find helpful are listed in the acknowledgements.
-
 ### Built With
 This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
