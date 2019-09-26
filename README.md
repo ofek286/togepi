@@ -30,7 +30,13 @@ This section should list any major frameworks that you built your project using.
 
 
 ## Roadmap
-
+* September 2019 - Cloud infrastructure for Incoming messages/Voice messages/Images & Coordinations.
+* September 2019 - ML Based messages analysis.
+* September 2019 - Web Platform for help requests managment  & dispatching the teams.
+* September 2019 - Platform Launches! - ready for our big showcase
+* October 2019 - integration of more Api's, handling more types of data & providing a more refined product.
+* January 2020 - Implementing ML algoriths for further analysis of Images & Videos providing even more data!
+* June 2020 - Deployment of the system and providing help but now in real life :)
 
 ## General System Architecture
 ![ARCHI](https://lh3.googleusercontent.com/2PXnkyANN7RPksE6DzmPAIipzJEraU-bw2veRoC8zX_-fJyhi_oGFCGPziSL-XUzZRqQUlZLgkijW_HIHuDB3Lfn-atFyTQC5DP7mw8m)
