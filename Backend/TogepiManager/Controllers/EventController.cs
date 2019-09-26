@@ -90,6 +90,7 @@ namespace TogepiManager.Controllers
                     TimeReceived = rep.TimeReceived
                 });
             }
+            reportsToReturn = reportsToReturn.OrderBy(r => r.TimeReceived).ToList();
             return new OkObjectResult(new EventDetailsResposeModel
             {
                 Status = true,

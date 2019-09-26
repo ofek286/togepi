@@ -83,14 +83,16 @@ namespace TogepiManager.Controllers
                     Type = model.Event.Type
                 };
 
-                //// Force explicit ID
-                //dbContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT dbo.Events ON");
-
                 foreach (Event e in dbContext.Events)
                 {
                     var canMerge = newEvent.TryMerge(e, out Event mergeOutput);
                     if (canMerge)
                     {
+                        // Replace the id on existing reports
+                        foreach (Report r in dbContext.Reports.Where(r => r.EventId == e.Id))
+                        {
+                            r.EventId = mergeOutput.Id;
+                        }
                         dbContext.Events.Remove(e);
                         eventId = mergeOutput.Id;
                         dbContext.Events.Add(mergeOutput);
@@ -103,11 +105,8 @@ namespace TogepiManager.Controllers
                     dbContext.Events.Add(newEvent);
                 }
 
-                //// Stop force explicit ID
-                //dbContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT dbo.Events ON");
-
                 // Add the reports
-                foreach (var report in model.Reports.Split(new string[] { "$\n" }, StringSplitOptions.RemoveEmptyEntries))
+                foreach (var report in model.Reports.Split(new string[] { "\n$" }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     var realReport = new Report
                     {
