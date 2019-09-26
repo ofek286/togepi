@@ -23,14 +23,16 @@ const CustomLocation = ({ row }) => (
   </div>
 
 );
-
-
 class CustomeReportsTable extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       data: this.props.data,
+      imgData: this.props.imgData,
+      renderedOutput:this.props.imgData.map((item,i) => <img key={i} src={`data:image/png;base64,${item.reportContent}`}
+             style={{height:500+"px", width:300+"px"}}/>),
+
       columns :[
         {
           name: 'Message',
@@ -49,12 +51,8 @@ class CustomeReportsTable extends React.Component {
 
     };
 
-    console.log('+++++++++++++= reports table data++++++++===');
-
-    console.log(this.state.data);
-    console.log('+++++++++++++= reports table data++++++++===');
-
   }
+
 
   render() {
     return (
@@ -64,6 +62,12 @@ class CustomeReportsTable extends React.Component {
         title='Reports About The Incident'
         columns={this.state.columns}
         data={this.state.data}/>
+        <div id="images">
+        <div>
+        {/*Displaying Images of the reporting*/}
+          {this.state.renderedOutput}
+        </div>
+        </div>
       </div>
     );
   }

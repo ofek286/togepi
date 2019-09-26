@@ -58,6 +58,7 @@ const styles = theme => ({
 });
 
 
+{/*Const array of disasters and their code #*/}
 const arrayDisasters = [{id:0, title:'Prank'},
 {id:1, title:'Drowning'},
 {id:2, title:'Fire'},
@@ -68,6 +69,7 @@ const arrayDisasters = [{id:0, title:'Prank'},
 {id:7, title:'Trapped'},
 {id:8, title:'Car Crush'}]
 
+{/*translating disaster id to name*/}
 function b(idToSearch) {
   return arrayDisasters.filter(item => {
     return item.id === idToSearch
@@ -75,6 +77,8 @@ function b(idToSearch) {
 };
 
 class Content extends Component {
+
+//function requests all active reportings from database
 getEventsData2 = async () => {
     console.log('Get Request Sent')
     await axios.get('https://togepi-backend.azurewebsites.net/api/events')
@@ -83,6 +87,7 @@ getEventsData2 = async () => {
 
   }
 
+//functoin requests for all of the reporting of the same event.
 getReportsData = async (rowId) => {
   console.log('Get Reports Request Sent:' + rowId)
     await axios.get('https://togepi-backend.azurewebsites.net/api/event?eventid=' + rowId)
@@ -94,24 +99,38 @@ getReportsData = async (rowId) => {
       eventLocation.push(locationObject);
 
     var newReportDataList = [];
+    var imgReportDataList = [];
       response.data.reports.forEach(function(element) {
         console.log(element.eventId);
+        {/*Checking if message type is message*/}
+        if(element.type == 0){
         var obj = {
             reportContent: element.content,
             reportTime:element.timeReceived
         };
-      newReportDataList.push(obj)
+        newReportDataList.push(obj)
+      }
+      {/*Checking if message type is image*/}
+      if(element.type == 1){
+        var img = {
+          reportContent: element.content,
+          reportTime:element.timeReceived
+        }
+        imgReportDataList.push(img);
+      }
   });
+  console.log('first print of image report data list11111111111111111111');
+  console.log(imgReportDataList);
 
-  this.setState({selectedViewLocation: locationObject,reportsDataList:newReportDataList})
+  this.setState({selectedViewLocation: locationObject,
+    reportsDataList:newReportDataList, reportsImgsList: imgReportDataList})
 
     })
 }
 
+//pursing our data before populating the component
 createDataList = async () => {
     var newDataList =[];
-
-
     this.state.data.forEach(function(element) {
       console.log(element.eventId);
       var obj = {
@@ -125,6 +144,7 @@ createDataList = async () => {
   this.setState({dataList:newDataList})
 }
 
+//Creating a markup list for the map from our reportings locations
 createMarkUpList = async () => {
     var markUpList =[];
 
@@ -140,7 +160,7 @@ createMarkUpList = async () => {
   this.setState({markUpList:markUpList})
 }
 
-
+//On Event from table Click function
 getPressedEventId = (val) => {
       // do not forget to bind getData in constructor
       console.log("user selected view:" + val);
@@ -149,7 +169,6 @@ getPressedEventId = (val) => {
         this.setState({selectedView: true})
       })
   }
-
 
   constructor(props) {
     super(props);
@@ -162,6 +181,8 @@ getPressedEventId = (val) => {
       selectedViewId:0,
       selectedViewLocation:[]
     };
+
+    {/*requesting data & filling our component*/}
     if(this.state.isThereData == false){
     this.getEventsData2().then(response => {
       console.log(this.state.data)
@@ -172,6 +193,7 @@ getPressedEventId = (val) => {
   }
 
 render(){
+  {/*while waiting for data - display loading*/}
   if (this.state.isThereData == false) {
     return(
       <div>
@@ -188,9 +210,7 @@ render(){
       <AppBar className={this.state.classes.searchBar} position="static" color="default" elevation={0}>
         <Toolbar>
           <Grid container spacing={2} alignItems="center">
-
             <Grid item>
-
               <Tooltip title="Reload">
                 <IconButton>
                   <RefreshIcon className={this.state.classes.block} color="inherit" />
@@ -206,11 +226,13 @@ render(){
 
       <Grid item xs={5} style={{height:500 +'px'}}>
         <Container maxWidth="sm">
+        {/*creating and passing data to our disaster events table*/}
               <CustomeDataTable  data={this.state.dataList} getEventId={this.getPressedEventId}/>
         </Container>
       </Grid>
 
       <Grid item xs={7} style={{height: 450 + 'px', width: 350 + 'px'}}>
+      {/*Creating and passing data to our main event Map*/}
         <h1>Live Events Map</h1>
         <div id="mapDiv" style={{background: '#fff', pointerevents: 'none'}}>
         <CustomGoogleMap data={this.state.markUpList} location={{lat: 40.744, lng: -73.916}} zoomSize={10}/>
@@ -224,6 +246,7 @@ render(){
     </Paper>
   );
 }else{
+  {/*If an event was chosen display information about the event*/}
     console.log("Single Event View")
     console.log(this.state.selectedView)
 
@@ -251,7 +274,8 @@ render(){
 
       <Grid item xs={5} style={{height:500 +'px'}}>
         <Container maxWidth="sm">
-              <CustomeReportsTable  data={this.state.reportsDataList}/>
+              <CustomeReportsTable  data={this.state.reportsDataList}
+              imgData={this.state.reportsImgsList}/>
         </Container>
       </Grid>
 
