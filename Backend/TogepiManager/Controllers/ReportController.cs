@@ -108,6 +108,24 @@ namespace TogepiManager.Controllers
                 // Add the reports
                 foreach (var report in model.Reports.Split(new string[] { "\n$" }, StringSplitOptions.RemoveEmptyEntries))
                 {
+                    if (report.StartsWith("&&"))
+                    {
+                        var images = report.Substring(2).Split(new string[] { "\n&&" }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var image in images)
+                        {
+                            var imageReport = new Report
+                            {
+                                Id = Guid.NewGuid(),
+                                EventId = eventId,
+                                Type = ReportType.PHOTO,
+                                Content = image,
+                                UserId = model.UserId,
+                                TimeReceived = DateTime.Now
+                            };
+                            dbContext.Reports.Add(imageReport);
+                        }
+                        continue;
+                    }
                     var realReport = new Report
                     {
                         Id = Guid.NewGuid(),

@@ -42,7 +42,8 @@ namespace TogepiManager.DbManagement {
             mergedThreat = new Event {
                 Id = Guid.NewGuid(),
                 Location = Location.MidPoint(otherThreat.Location),
-                Type = Type
+                Type = Type,
+                Radius = otherThreat.Radius
             };
             return true;
         }
