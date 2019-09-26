@@ -10,6 +10,7 @@ import Navigator from './Navigator';
 import Content from './Content';
 import Header from './Header';
 
+{/*generating copyright footer*/}
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -162,6 +163,7 @@ const styles = {
   },
 };
 
+{/*Main function putting our 2 main elements together*/}
 function Paperbase(props) {
   const { classes } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -189,6 +191,7 @@ function Paperbase(props) {
         </nav>
         <div className={classes.app}>
           <Header onDrawerToggle={handleDrawerToggle} />
+          {/*Our Main Content of the Dashboard*/}
           <main className={classes.main}>
             <Content style={{width:1600+"px", height:1200+"px"}}/>
           </main>

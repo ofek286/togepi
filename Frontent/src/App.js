@@ -6,6 +6,7 @@ import Paperbase from './components/Paperbase.js'
 function App() {
   return (
     <div className="App">
+    {/*Main Component paperbase*/}
     <Paperbase/>
     </div>
   );
