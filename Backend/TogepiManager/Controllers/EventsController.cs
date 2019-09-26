@@ -63,7 +63,7 @@ namespace TogepiManager.Controllers
         /// </summary>
         /// <response code="200">The response was OK, and we tried to delete all of the events</response>
         [HttpDelete]
-        [ProducesResponseType(typeof(AllEventsResponseModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ResponseModel), (int)HttpStatusCode.OK)]
         public IActionResult DeleteEveryEvent()
         {
             // Delete every event
