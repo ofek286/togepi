@@ -14,6 +14,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
 import CustomeDataTable from './CustomeDataTable.js';
+import CustomeReportsTable from './CustomeReportsTable';
 
 import CustomGoogleMap from './CustomGoogleMap.js';
 
@@ -75,14 +76,39 @@ getEventsData2 = async () => {
 
   }
 
+getReportsData = async (rowId) => {
+  console.log('Get Reports Request Sent:' + rowId)
+    await axios.get('https://togepi-backend.azurewebsites.net/api/event?eventid=' + rowId)
+    .then(response => {
+
+      var eventLocation = [];
+      var locationObject = {lat: response.data.eventDetails.latitude,
+        lng: response.data.eventDetails.longitude};
+      eventLocation.push(locationObject);
+
+    var newReportDataList = [];
+      response.data.reports.forEach(function(element) {
+        console.log(element.eventId);
+        var obj = {
+            reportContent: element.content,
+            reportTime:element.timeReceived
+        };
+      newReportDataList.push(obj)
+  });
+
+  this.setState({selectedViewLocation: locationObject,reportsDataList:newReportDataList})
+
+    })
+}
+
 createDataList = async () => {
     var newDataList =[];
 
 
     this.state.data.forEach(function(element) {
-      console.log(element);
+      console.log(element.eventId);
       var obj = {
-          id: element.eventId,
+          eventId: element.eventId,
           eventType:b(element.type)[0].title,
           eventLocation: element.displayLocation,
           eventStatus: "Unanswered"
@@ -108,10 +134,13 @@ createMarkUpList = async () => {
 }
 
 
-
 getPressedEventId = (val) => {
       // do not forget to bind getData in constructor
-      console.log(val);
+      console.log("user selected view:" + val);
+      this.setState({selectedViewId:val})
+      this.getReportsData(val).then(response =>{
+        this.setState({selectedView: true})
+      })
   }
 
 
@@ -120,7 +149,11 @@ getPressedEventId = (val) => {
     this.getPressedEventId = this.getPressedEventId.bind(this);
     this.state = {
       classes: this.props,
-      isThereData: false
+      isThereData: false,
+      selectedView: false,
+      reportsDataList: [],
+      selectedViewId:0,
+      selectedViewLocation:[]
     };
     if(this.state.isThereData == false){
     this.getEventsData2().then(response => {
@@ -141,6 +174,7 @@ render(){
       </div>
     )
   }else{
+    if(this.state.selectedView == false){
     return (
     <Paper className={this.state.classes.paper} style={{width:1450+"px", height:800+"px"}}>
 
@@ -172,7 +206,7 @@ render(){
       <Grid item xs={7} style={{height: 450 + 'px', width: 350 + 'px'}}>
         <h1>Live Events Map</h1>
         <div id="mapDiv" style={{background: '#fff', pointerevents: 'none'}}>
-        <CustomGoogleMap data={this.state.markUpList}/>
+        <CustomGoogleMap data={this.state.markUpList} location={{lat: 40.744, lng: -73.916}} zoomSize={10}/>
         </div>
       </Grid>
 
@@ -182,6 +216,52 @@ render(){
 
     </Paper>
   );
+}else{
+    console.log("Single Event View")
+    console.log(this.state.selectedView)
+
+    return (
+    <Paper className={this.state.classes.paper} style={{width:1450+"px", height:800+"px"}}>
+
+      <AppBar className={this.state.classes.searchBar} position="static" color="default" elevation={0}>
+        <Toolbar>
+          <Grid container spacing={2} alignItems="center">
+
+            <Grid item>
+
+              <Tooltip title="Reload">
+                <IconButton>
+                  <RefreshIcon className={this.state.classes.block} color="inherit" />
+                </IconButton>
+              </Tooltip>
+            </Grid>
+          </Grid>
+        </Toolbar>
+      </AppBar>
+
+      <div className={this.state.classes.contentWrapper}>
+      <Grid container spacing={0} alignItems="center">
+
+      <Grid item xs={5} style={{height:500 +'px'}}>
+        <Container maxWidth="sm">
+              <CustomeReportsTable  data={this.state.reportsDataList}/>
+        </Container>
+      </Grid>
+
+      <Grid item xs={7} style={{height: 450 + 'px', width: 350 + 'px'}}>
+        <h1>Reported Location</h1>
+        <div id="imageDiv" style={{background: '#fff', pointerevents: 'none'}}>
+        <CustomGoogleMap data={this.state.markUpList} location={this.state.selectedViewLocation} zoomSize={15}/>
+        </div>
+      </Grid>
+
+      </Grid>
+      </div>
+
+
+    </Paper>
+    );}
+
 }
 }
 

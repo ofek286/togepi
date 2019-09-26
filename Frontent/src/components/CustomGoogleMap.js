@@ -15,15 +15,21 @@ const mapStyles = {
 
 class CustomGoogleMap extends Component {
 
+
   constructor(props) {
     super(props);
     this.state = {
-      data: this.props.data
+      data: this.props.data,
+      location:this.props.location,
+      zoomSize:this.props.zoomSize,
+      created:true
     };
-    console.log(this.state.data);
-    console.log("----------------------------")
-  }
 
+    console.log("--------------location passed-------------")
+    console.log(this.state.location);
+    console.log("--------------zoomsize passed-------------")
+    console.log(this.state.zoomSize);
+  }
 
   displayMarkers = () => {
     console.log("creating markers")
@@ -44,16 +50,17 @@ class CustomGoogleMap extends Component {
 
 
 render() {
-  return (
-        <Map
-          google={this.props.google}
-          zoom={10}
-          style={mapStyles}
-          initialCenter={{ lat: 40.744, lng: -73.916}}
-        >
-        {this.displayMarkers()}
-        </Map>
-    );
+  if(this.state.created == true){
+    return(<Map
+      google={this.props.google}
+      zoom={this.state.zoomSize}
+      style={mapStyles}
+      initialCenter={{lat: this.state.location.lat, lng:this.state.location.lng}}
+    >
+    {this.displayMarkers()}
+    </Map>
+  );
+  }
 }
 }
 
