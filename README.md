@@ -5,7 +5,11 @@
 The repository of Project Togepi for the IBM Code and Response Hackathon 2019
 
 
-<!-- ABOUT THE PROJECT -->
+## Project links
+* [Node-RED management](http://togepi-watson.eu-gb.mybluemix.net/red)
+* [Togepi Backend API documentation](https://togepi-backend.azurewebsites.net/index.html)
+
+
 ## About The Project
 Togepi is an online dispatcher assistance service processing and handling calls for help sent by citizens.
 
@@ -21,9 +25,9 @@ The dispatchers use the Togepi dashboard for handling calls for help, checking e
 This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
 * [IBM Cloud](https://www.ibm.com/cloud)
-* [ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-3.0)
+* [ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-2.2)
 * [React](https://reactjs.org/)
-* [Node-Red](https://nodered.org/)
+* [Node-RED](https://nodered.org/)
 
 
 
