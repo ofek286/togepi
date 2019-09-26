@@ -21,22 +21,31 @@ import PhonelinkSetupIcon from '@material-ui/icons/PhonelinkSetup';
 
 const categories = [
   {
-    id: 'Develop',
+    id: 'Menu',
     children: [
-      { id: 'Authentication', icon: <PeopleIcon />, active: true },
-      { id: 'Database', icon: <DnsRoundedIcon /> },
-      { id: 'Storage', icon: <PermMediaOutlinedIcon /> },
-      { id: 'Hosting', icon: <PublicIcon /> },
-      { id: 'Functions', icon: <SettingsEthernetIcon /> },
-      { id: 'ML Kit', icon: <SettingsInputComponentIcon /> },
+      { id: 'Active Reports', icon: <PeopleIcon />, active: true },
+      { id: 'Live Events Map', icon: <PermMediaOutlinedIcon /> },
     ],
   },
   {
-    id: 'Quality',
+    id: 'Active Teams',
     children: [
-      { id: 'Analytics', icon: <SettingsIcon /> },
-      { id: 'Performance', icon: <TimerIcon /> },
-      { id: 'Test Lab', icon: <PhonelinkSetupIcon /> },
+      { id: 'Current Teams Dispatched', icon: <PublicIcon /> }
+    ],
+  },
+  {
+    id: 'call Data',
+    children: [
+      { id: 'Closed Reports', icon: <SettingsEthernetIcon /> },
+      { id: 'Callers Information', icon: <DnsRoundedIcon /> },
+    ],
+  },
+  {
+    id: 'Tech',
+    children: [
+      { id: 'Support', icon: <SettingsInputComponentIcon /> },
+
+
     ],
   },
 ];
@@ -89,7 +98,7 @@ function Navigator(props) {
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
         <ListItem className={clsx(classes.firebase, classes.item, classes.itemCategory)}>
-          
+
           Togepi
         </ListItem>
         <ListItem className={clsx(classes.item, classes.itemCategory)}>

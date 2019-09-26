@@ -13,7 +13,7 @@ const mapStyles = {
 };
 
 
-class CustomGoogleMap extends Component {
+class ReportEventMap extends Component {
 
 
   constructor(props) {
@@ -67,4 +67,4 @@ render() {
 
 export default GoogleApiWrapper({
   apiKey: 'AIzaSyDAUvmu8f4Vn4q3hiPbWzT_u84fOYCgQ6g'
-})(CustomGoogleMap);
+})(ReportEventMap);

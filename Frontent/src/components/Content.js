@@ -17,8 +17,15 @@ import CustomeDataTable from './CustomeDataTable.js';
 import CustomeReportsTable from './CustomeReportsTable';
 
 import CustomGoogleMap from './CustomGoogleMap.js';
+import ReportEventMap from './ReportEventMap.js';
+
 
 import loadinggif from '../resources/load.gif'
+import medicImg from '../resources/medic.png'
+import policeImg from '../resources/police.png'
+import fireDepImg from '../resources/firedep.png'
+
+
 
 import Container from '@material-ui/core/Container';
 
@@ -248,11 +255,28 @@ render(){
         </Container>
       </Grid>
 
-      <Grid item xs={7} style={{height: 450 + 'px', width: 350 + 'px'}}>
+      <Grid item xs={7} style={{height: 550 + 'px', width: 350 + 'px'}}>
         <h1>Reported Location</h1>
-        <div id="imageDiv" style={{background: '#fff', pointerevents: 'none'}}>
-        <CustomGoogleMap data={this.state.markUpList} location={this.state.selectedViewLocation} zoomSize={15}/>
+        <div id="send help buttons">
+        <Grid container spacing={2} alignItems="center" style={{display: 'flex', justifyContent: 'center'}}>
+        <Grid item xs={2}>
+<button><img src={policeImg} alt="my image" onClick={this.myfunction} style={{width:64+"px", height:64+"px"}} /></button>
+<p>Dispatch A Police Officer</p>
+                </Grid>
+        <Grid item xs={2}>
+<button><img src={medicImg} alt="my image" onClick={this.myfunction}  style={{width:64+"px", height:64+"px",}}/></button>
+<p>Call An Ambulance To The Location</p>
+        </Grid>
+        <Grid item xs={2}>
+<button><img src={fireDepImg} alt="my image" onClick={this.myfunction}  style={{width:64+"px", height:64+"px"}}/></button>
+<p>Send Location To The FireDepartment</p>
+        </Grid>
+        </Grid>
         </div>
+        <div id="imageDiv" style={{background: '#fff', pointerevents: 'none'}}>
+        <ReportEventMap data={this.state.markUpList} location={this.state.selectedViewLocation} zoomSize={15}/>
+        </div>
+
       </Grid>
 
       </Grid>
