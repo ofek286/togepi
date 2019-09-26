@@ -2,6 +2,9 @@ using System;
 
 namespace IncidentLibrary
 {
+    /// <summary>
+    /// Additional helper math functions.
+    /// </summary>
     public class MathHelpers
     {
         /// <summary>

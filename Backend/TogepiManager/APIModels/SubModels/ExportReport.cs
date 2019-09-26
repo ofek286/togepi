@@ -1,11 +1,13 @@
 using System;
 using TogepiManager.DbManagement;
 
-namespace TogepiManager.APIModels.SubModels {
+namespace TogepiManager.APIModels.SubModels
+{
     /// <summary>
     /// The model to use when describing an event.
     /// </summary>
-    public class ExportReport {
+    public class ExportReport
+    {
         /// <summary>
         /// The type of the report (Text, Photo or Voice).
         /// </summary>

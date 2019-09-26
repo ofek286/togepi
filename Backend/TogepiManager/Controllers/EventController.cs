@@ -24,9 +24,20 @@ namespace TogepiManager.Controllers
     [ApiController]
     public class EventController : ControllerBase
     {
-        private TogepiContext dbContext;
-        private ILogger<EventController> logger;
-        private HEREApp apiKey;
+        /// <summary>
+        /// The database to use.
+        /// </summary>
+        private readonly TogepiContext dbContext;
+
+        /// <summary>
+        /// The logger to use.
+        /// </summary>
+        private readonly ILogger<EventController> logger;
+
+        /// <summary>
+        /// The API key to use for HERE Maps.
+        /// </summary>
+        private readonly HEREApp apiKey;
 
         /// <summary>
         /// The constructor of the controller.
@@ -35,11 +46,14 @@ namespace TogepiManager.Controllers
         /// <param name="loggerArg">The logger to use</param>
         public EventController(TogepiContext context, ILogger<EventController> loggerArg)
         {
+            // Saving the args
             dbContext = context;
             logger = loggerArg;
 
+            // Creating the SQL tables
             dbContext.Database.EnsureCreated();
 
+            // Setting the API key
             apiKey = new HEREApp
             {
                 AppId = "nwVKikGG0miA826GlXkr",
@@ -66,6 +80,8 @@ namespace TogepiManager.Controllers
                     Message = APIMessages.NO_ARGUMENTS_MESSAGE
                 });
             }
+
+            // Find the event
             var ev = dbContext.Events.FirstOrDefault(e => e.Id.ToString().Equals(eventId));
             if (ev == null)
             {
@@ -76,9 +92,13 @@ namespace TogepiManager.Controllers
                 });
             }
 
+            // Get the location's description
             var dispLoc = await Geocoding.ReverseGeocode(apiKey, ev.Location, ev.Radius);
 
+            // Helper variables
             var reportsToReturn = new List<ExportReport>();
+
+            // Find the related reports
             var reports = dbContext.Reports.Where(r => r.EventId == ev.Id);
             foreach (Report rep in reports)
             {
@@ -91,6 +111,8 @@ namespace TogepiManager.Controllers
                 });
             }
             reportsToReturn = reportsToReturn.OrderBy(r => r.TimeReceived).ToList();
+
+            // Return the event and its reports
             return new OkObjectResult(new EventDetailsResposeModel
             {
                 Status = true,
@@ -128,16 +150,21 @@ namespace TogepiManager.Controllers
                 });
             }
 
+            // Get the location's description
             var geoLoc = await Geocoding.Geocode(apiKey, model.LocationString);
+
+            // Add the new event
             dbContext.Events.Add(new Event
             {
                 Id = Guid.NewGuid(),
-                Latitude = geoLoc.Latitude,
-                Longitude = geoLoc.Longitude,
+                Location = geoLoc,
                 Radius = 10,
                 Type = model.Type
             });
+
+            // Save changes to SQL
             dbContext.SaveChanges();
+
             return new OkObjectResult(new ResponseModel
             {
                 Status = true,
@@ -153,6 +180,7 @@ namespace TogepiManager.Controllers
         [ProducesResponseType(typeof(AllEventsResponseModel), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAllEvents()
         {
+            // Send only required info
             return new OkObjectResult(new AllEventsResponseModel
             {
                 Status = true,

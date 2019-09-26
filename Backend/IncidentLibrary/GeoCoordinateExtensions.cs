@@ -5,6 +5,9 @@ using static IncidentLibrary.MathHelpers;
 
 namespace IncidentLibrary
 {
+    /// <summary>
+    /// Helper methods to add to GeoCoordinate.
+    /// </summary>
     public static class GeoCoordinateExtensions
     {
         /// <summary>
@@ -26,7 +29,7 @@ namespace IncidentLibrary
                             Math.Sin(DegreesToRadians(posA.Latitude)) + Math.Sin(DegreesToRadians(posB.Latitude)),
                             Math.Sqrt(
                                 (Math.Cos(DegreesToRadians(posA.Latitude)) + Bx) *
-                                (Math.Cos(DegreesToRadians(posA.Latitude)) + Bx) + By * By))); 
+                                (Math.Cos(DegreesToRadians(posA.Latitude)) + Bx) + By * By)));
 
             midPoint.Longitude = posA.Longitude + RadiansToDegrees(Math.Atan2(By, Math.Cos(DegreesToRadians(posA.Latitude)) + Bx));
 

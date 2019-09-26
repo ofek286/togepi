@@ -1,7 +1,12 @@
 using TogepiManager.DbManagement;
 
-namespace TogepiManager.APIModels.SubModels {
-    public class ExportEvent {
+namespace TogepiManager.APIModels.SubModels
+{
+    /// <summary>
+    /// A model to use when sending details about an event.
+    /// </summary>
+    public class ExportEvent
+    {
         /// <summary>
         /// The identifier of the event.
         /// </summary>
