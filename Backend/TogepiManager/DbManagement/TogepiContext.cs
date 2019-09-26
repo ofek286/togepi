@@ -11,6 +11,7 @@ namespace TogepiManager.DbManagement {
         public TogepiContext(DbContextOptions<TogepiContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            modelBuilder.Entity<Event>().Property(e => e.Id).ValueGeneratedNever();
             modelBuilder.Entity<Event>().Ignore(e => e.Location).ToTable("Events");
             modelBuilder.Entity<Report>().ToTable("Reports");
         }
